@@ -1,7 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import bcrypt from "bcrypt";
-import User from "../models/User.js";
+import { User } from "../models/user.model.js";
 
 const router = Router();
 const CLIENT_URL = process.env.CLIENT_URL; // e.g. http://localhost:5173

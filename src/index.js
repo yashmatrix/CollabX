@@ -1,4 +1,4 @@
-import "dotenv/config"; // must be first
+import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -8,15 +8,17 @@ import http from "http";
 import { Server } from "socket.io";
 import passport from "./config/passport.js";
 import authRoutes from "./routes/auth.js";
-import projectRoutes from "./routes/projects.js";
-import { requireAuth } from "./middleware/requireAuth.js";
-import { connectDB } from "./db/index.js"
+// import projectRoutes from "./routes/projects.js";
+// import { requireAuth } from "./middlewares/requireAuth.js";
+import connectDB from "./db/index.js"
+
 
 const app = express();
 app.set("trust proxy", 1); // needed behind Render/Nginx for secure cookies
 
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Parses URL-encoded payloads (like HTML form data)
 
 export const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
@@ -36,7 +38,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRoutes);
-app.use("/api/projects", requireAuth, projectRoutes);
+// app.use("/api/projects", requireAuth, projectRoutes);
+
+app.get("/", (req, res) => {
+  res.send("CollabX API is running...");
+});
 
 // --- Socket.io sharing the same session ---
 const server = http.createServer(app);
