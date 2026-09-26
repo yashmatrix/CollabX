@@ -8,6 +8,7 @@ const userSchema = new Schema(
             required: true,
             unique: true,
             lowercase: true,
+            sparse: true, // lets multiple documents leave a unique field empty without colliding
             trim: true, 
             index: true
         },
@@ -15,10 +16,16 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
+            sparse: true,
             lowecase: true,
             trim: true
         },
-        fullName: {
+        googleId: {
+            type: String,
+            unique: true,
+            sparse: true
+        },
+        displayName: {
             type: String,
             required: true,
             trim: true, 
@@ -40,3 +47,7 @@ const userSchema = new Schema(
         timestamps: true
     }
 )
+
+userSchema.plugin(mongooseAggregatePaginate)
+
+export const User = mongoose.model("User", userSchema)
