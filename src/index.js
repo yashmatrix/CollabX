@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 import http from "http";
 import { Server } from "socket.io";
 import passport from "./config/passport.js";
-import authRoutes from "./routes/auth.js";
+import authRoutes from "./routes/auth.routes.js";
 // import projectRoutes from "./routes/projects.js";
 // import { requireAuth } from "./middlewares/requireAuth.js";
 import connectDB from "./db/index.js"
